@@ -249,7 +249,7 @@ export default function Booking() {
       {/* Footer */}
       <footer className="bg-gray-900 text-gray-300 py-8">
         <div className="container mx-auto px-4 text-center text-sm">
-          <p>&copy; 2024 EventPhotoHub. All rights reserved.</p>
+          <p>&copy; 2024 Nvs Click. All rights reserved.</p>
         </div>
       </footer>
     </div>

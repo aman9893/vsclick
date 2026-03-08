@@ -44,6 +44,13 @@ export default function Home() {
   const [portfolioStartIndex, setPortfolioStartIndex] = useState(0);
   const [showScrollToTop, setShowScrollToTop] = useState(false);
   const [heroSlideIndex, setHeroSlideIndex] = useState(0);
+  const [isBookingPopupOpen, setIsBookingPopupOpen] = useState(false);
+  const [bookingSource, setBookingSource] = useState("Book A Consultation");
+  const [bookingForm, setBookingForm] = useState({
+    name: "",
+    phone: "",
+    description: "",
+  });
   const [selectedGalleryImage, setSelectedGalleryImage] = useState<{
     src: string;
     alt: string;
@@ -69,32 +76,18 @@ export default function Home() {
   ];
 
   const headerNavItems = [
-    {
-      label: "Films",
-      href: "https://whataweddingstory.com/wedding-films/",
-      external: true,
-    },
+
     { label: "Photography", href: "/portfolio", external: false },
     {
-      label: "Blogs",
-      href: "https://whataweddingstory.com/blogs/",
-      external: true,
-    },
-    {
-      label: "FAQs",
-      href: "https://whataweddingstory.com/faqs/",
-      external: true,
-    },
-    {
       label: "Contact Us",
-      href: "https://whataweddingstory.com/contact-us/",
+      href: "#contact-us",
       external: true,
     },
   ];
 
   const careersMenuItem = {
     label: "Careers",
-    href: "https://whataweddingstory.com/careers/",
+    href: "",
   };
 
   const services = [
@@ -436,6 +429,30 @@ export default function Home() {
     setPortfolioStartIndex((prev) => Math.min(maxPortfolioStartIndex, prev + 1));
   };
 
+  const resetBookingForm = () => {
+    setBookingForm({
+      name: "",
+      phone: "",
+      description: "",
+    });
+  };
+
+  const openBookingPopup = (source: string) => {
+    setBookingSource(source);
+    setIsBookingPopupOpen(true);
+  };
+
+  const handleBookingPopupChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const field = e.target.name as "name" | "phone" | "description";
+    const value = e.target.value;
+    setBookingForm((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
+  };
+
   return (
     <div className="min-h-screen bg-black text-white overflow-x-hidden">
       <header className="fixed top-0 inset-x-0 z-[70] border-b border-white/10 bg-black/35 backdrop-blur-md">
@@ -443,21 +460,30 @@ export default function Home() {
           <Link href="/">
             <a className="flex items-center gap-3" onClick={() => setIsMobileMenuOpen(false)}>
               <img
-                src="https://whataweddingstory.com/wp-content/uploads/2023/05/LOGO-PNG-SMALL-SIZE-TRASPARENT-BACKGROUND-1-1-1.png"
-                alt="What A Story logo"
+                src="./logo_processed.jpg"
+                alt="./logo.jpeg"
                 className="h-12 w-auto"
               />
               <span className="hidden sm:block font-semibold text-white text-lg tracking-wide">
-                What A Story
+                Nvs Click
               </span>
             </a>
           </Link>
 
           <nav className="hidden xl:flex items-center justify-center gap-7">
             {headerNavItems.slice(0, 3).map((item) =>
-              item.external ? (
+              item.label === "Contact Us" ? (
+                <button
+                  key={item.href ?? item.label}
+                  type="button"
+                  onClick={() => openBookingPopup("Contact Us - Header")}
+                  className="text-white/90 hover:text-white transition-colors"
+                >
+                  {item.label}
+                </button>
+              ) : item.external ? (
                 <a
-                  key={item.href}
+                  key={item.href ?? item.label}
                   href={item.href}
                   target="_blank"
                   rel="noreferrer"
@@ -473,13 +499,7 @@ export default function Home() {
             )}
 
             <div className="relative group">
-              <button
-                type="button"
-                className="inline-flex items-center gap-1 text-white/90 group-hover:text-white transition-colors"
-              >
-                Resources
-                <ChevronDown className="h-4 w-4" />
-              </button>
+       
               <div className="pointer-events-none group-hover:pointer-events-auto absolute left-0 top-full pt-2 opacity-0 group-hover:opacity-100 transition">
                 <div className="min-w-40 rounded-md border border-white/10 bg-black/90 p-2 shadow-xl">
                   <a
@@ -494,22 +514,33 @@ export default function Home() {
               </div>
             </div>
 
-            {headerNavItems.slice(3).map((item) => (
-              <a
-                key={item.href}
-                href={item.href}
-                target="_blank"
-                rel="noreferrer"
-                className="text-white/90 hover:text-white transition-colors"
-              >
-                {item.label}
-              </a>
-            ))}
+            {headerNavItems.slice(3).map((item) =>
+              item.label === "Contact Us" ? (
+                <button
+                  key={item.href ?? item.label}
+                  type="button"
+                  onClick={() => openBookingPopup("Contact Us - Header")}
+                  className="text-white/90 hover:text-white transition-colors"
+                >
+                  {item.label}
+                </button>
+              ) : (
+                <a
+                  key={item.href ?? item.label}
+                  href={item.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-white/90 hover:text-white transition-colors"
+                >
+                  {item.label}
+                </a>
+              )
+            )}
           </nav>
 
           <div className="hidden xl:flex items-center gap-3 justify-self-end">
             <a
-              href="https://www.instagram.com/whatastoryphotography/"
+              href="https://www.instagram.com/new_vidyasagar_click7440/"
               target="_blank"
               rel="noreferrer"
               className="h-9 w-9 rounded-full border border-white/25 text-white flex items-center justify-center hover:bg-white/10"
@@ -518,7 +549,7 @@ export default function Home() {
               <Instagram className="h-4 w-4" />
             </a>
             <a
-              href="https://www.facebook.com/people/Small-StudiosPhotography/100076280371460/?mibextid=LQQJ4d"
+              href="https://www.facebook.com/share/17fke6JmTP/?mibextid=wwXIfr"
               target="_blank"
               rel="noreferrer"
               className="h-9 w-9 rounded-full border border-white/25 text-white flex items-center justify-center hover:bg-white/10"
@@ -527,7 +558,7 @@ export default function Home() {
               <Facebook className="h-4 w-4" />
             </a>
             <a
-              href="https://www.youtube.com/@WhataStory."
+              href="https://www.youtube.com/@newVidyaSagarclick"
               target="_blank"
               rel="noreferrer"
               className="h-9 w-9 rounded-full border border-white/25 text-white flex items-center justify-center hover:bg-white/10"
@@ -550,20 +581,33 @@ export default function Home() {
         {isMobileMenuOpen ? (
           <div className="xl:hidden border-t border-white/10 bg-black/70">
             <div className="px-4 py-4 space-y-3">
-              {headerNavItems.slice(0, 3).map((item) => (
-                <a
-                  key={`mobile-${item.href}`}
-                  href={item.href}
-                  target={item.external ? "_blank" : undefined}
-                  rel={item.external ? "noreferrer" : undefined}
-                  className="block text-white/90 hover:text-white"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  {item.label}
-                </a>
-              ))}
+              {headerNavItems.slice(0, 3).map((item) =>
+                item.label === "Contact Us" ? (
+                  <button
+                    key={`mobile-${item.href ?? item.label}`}
+                    type="button"
+                    className="block text-white/90 hover:text-white"
+                    onClick={() => {
+                      setIsMobileMenuOpen(false);
+                      openBookingPopup("Contact Us - Mobile Menu");
+                    }}
+                  >
+                    {item.label}
+                  </button>
+                ) : (
+                  <a
+                    key={`mobile-${item.href ?? item.label}`}
+                    href={item.href}
+                    target={item.external ? "_blank" : undefined}
+                    rel={item.external ? "noreferrer" : undefined}
+                    className="block text-white/90 hover:text-white"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    {item.label}
+                  </a>
+                )
+              )}
 
-              <span className="block text-white/70 text-sm pt-1">Resources</span>
               <a
                 href={careersMenuItem.href}
                 target="_blank"
@@ -574,18 +618,32 @@ export default function Home() {
                 {careersMenuItem.label}
               </a>
 
-              {headerNavItems.slice(3).map((item) => (
-                <a
-                  key={`mobile-tail-${item.href}`}
-                  href={item.href}
-                  target="_blank"
-                  rel="noreferrer"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="block text-white/90 hover:text-white"
-                >
-                  {item.label}
-                </a>
-              ))}
+              {headerNavItems.slice(3).map((item) =>
+                item.label === "Contact Us" ? (
+                  <button
+                    key={`mobile-tail-${item.href ?? item.label}`}
+                    type="button"
+                    onClick={() => {
+                      setIsMobileMenuOpen(false);
+                      openBookingPopup("Contact Us - Mobile Menu");
+                    }}
+                    className="block text-white/90 hover:text-white"
+                  >
+                    {item.label}
+                  </button>
+                ) : (
+                  <a
+                    key={`mobile-tail-${item.href ?? item.label}`}
+                    href={item.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="block text-white/90 hover:text-white"
+                  >
+                    {item.label}
+                  </a>
+                )
+              )}
             </div>
           </div>
         ) : null}
@@ -593,7 +651,7 @@ export default function Home() {
 
       <div className="fixed left-0 top-[40%] z-50 hidden md:flex flex-col gap-3">
         <a
-          href="https://www.instagram.com/whatastoryphotography/"
+          href="https://www.instagram.com/new_vidyasagar_click7440/"
           target="_blank"
           rel="noreferrer"
           className="h-11 w-11 rounded-r-lg bg-pink-600 flex items-center justify-center text-white hover:translate-x-1 transition"
@@ -602,7 +660,7 @@ export default function Home() {
           <Instagram className="h-5 w-5" />
         </a>
         <a
-          href="https://www.facebook.com/people/Small-StudiosPhotography/100076280371460/?mibextid=LQQJ4d"
+          href="https://www.facebook.com/share/17fke6JmTP/?mibextid=wwXIfr"
           target="_blank"
           rel="noreferrer"
           className="h-11 w-11 rounded-r-lg bg-blue-600 flex items-center justify-center text-white hover:translate-x-1 transition"
@@ -611,7 +669,7 @@ export default function Home() {
           <Facebook className="h-5 w-5" />
         </a>
         <a
-          href="https://www.youtube.com/@WhataStory."
+          href="https://www.youtube.com/@newVidyaSagarclick"
           target="_blank"
           rel="noreferrer"
           className="h-11 w-11 rounded-r-lg bg-red-600 flex items-center justify-center text-white hover:translate-x-1 transition"
@@ -622,7 +680,7 @@ export default function Home() {
       </div>
 
       <a
-        href="https://wa.me/+917550075777"
+        href="https://wa.me/+916269941008"
         target="_blank"
         rel="noreferrer"
         className="fixed bottom-5 left-5 z-50 h-14 w-14 rounded-full bg-[#25D366] text-white shadow-lg flex items-center justify-center hover:bg-[#1ebd5a] transition"
@@ -632,7 +690,7 @@ export default function Home() {
       </a>
 
       <a
-        href="tel:+917550075777"
+        href="tel:+916269941008"
         className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-[#c78665] py-3 text-center text-white font-semibold"
       >
         <span className="inline-flex items-center gap-2">
@@ -669,17 +727,19 @@ export default function Home() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: "easeOut" }}
         >
-          <p className="text-lg sm:text-xl tracking-[0.2em] text-white/90 mb-4">WHAT A STORY</p>
-          <h1 className="text-5xl sm:text-6xl md:text-7xl font-semibold text-white mb-4">Photos & Films</h1>
+          <h1 className="text-5xl sm:text-6xl md:text-7xl font-semibold text-white mb-4">Nvs Click</h1>
           <p className="text-xl sm:text-2xl text-amber-300 mb-8">
-            Transforming The Landscape of Indian Wedding Photography.
+           Best Photographer in Hyderabad, Bhopal , Indore India. Capturing timeless moments with a blend of candid and staged artistry.
           </p>
-          <a href="https://whataweddingstory.com/contact-us/" target="_blank" rel="noreferrer">
-            <Button className="bg-[#c78665] hover:bg-[#b07354] text-white px-8 py-6 text-base rounded-none">
-              Book A Consultation
-              <ArrowRight className="h-5 w-5 ml-2" />
-            </Button>
-          </a>
+        
+          <Button
+            type="button"
+            onClick={() => openBookingPopup("Book A Consultation - Hero")}
+            className="bg-[#c78665] hover:bg-[#b07354] text-white px-8 py-6 text-base rounded-none"
+          >
+            Book A Consultation
+            <ArrowRight className="h-5 w-5 ml-2" />
+          </Button>
         </motion.div>
 
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex items-center gap-3">
@@ -727,7 +787,7 @@ export default function Home() {
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.55, ease: "easeOut" }}
           >
-            <h2 className="text-4xl sm:text-5xl font-semibold mb-3">What A Story</h2>
+            <h2 className="text-4xl sm:text-5xl font-semibold mb-3">Nvs Click</h2>
             <p className="text-xl text-slate-600 mb-4">Photos & Films</p>
             <h3 className="text-2xl sm:text-3xl font-medium text-[#dd9933] mb-6 leading-snug">
               Transforming The Landscape of Indian Wedding Photography.
@@ -741,17 +801,19 @@ export default function Home() {
             transition={{ duration: 0.55, delay: 0.08, ease: "easeOut" }}
           >
             <p className="text-slate-700 leading-relaxed mb-4">
-              What A Story specializes in capturing weddings and creating impactful visuals that seamlessly blend the staged with the candid and the posed with the real.
+              Nvs Click specializes in capturing weddings and creating impactful visuals that seamlessly blend the staged with the candid and the posed with the real.
             </p>
             <p className="text-slate-700 leading-relaxed mb-6">
               We are an accomplished and passionate group of photographers specializing in international destination wedding photography, pre-wedding photography, and wedding cinematography. Our goal is to create timeless memories of your special day with impeccable service and exceptional quality.
             </p>
-            <a href="https://whataweddingstory.com/contact-us/" target="_blank" rel="noreferrer">
-              <Button className="bg-[#c78665] hover:bg-[#b07354] text-white rounded-none px-8 py-6">
-                Book A Consultation
-                <ArrowRight className="h-5 w-5 ml-2" />
-              </Button>
-            </a>
+            <Button
+              type="button"
+              onClick={() => openBookingPopup("Book A Consultation - Intro")}
+              className="bg-[#c78665] hover:bg-[#b07354] text-white rounded-none px-8 py-6"
+            >
+              Book A Consultation
+              <ArrowRight className="h-5 w-5 ml-2" />
+            </Button>
           </motion.div>
         </div>
       </section>
@@ -947,9 +1009,9 @@ export default function Home() {
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.5, delay: 0.08, ease: "easeOut" }}
           >
-            At What A Story, we go beyond traditional wedding videography by crafting cinematic masterpieces that preserve your emotions and memories in a deeply meaningful way. Our team harmoniously blends light, composition, and movement to create films that authentically reflect the beauty, joy, and love of your celebration.
+            At Nvs Click, we go beyond traditional wedding videography by crafting cinematic masterpieces that preserve your emotions and memories in a deeply meaningful way. Our team harmoniously blends light, composition, and movement to create films that authentically reflect the beauty, joy, and love of your celebration.
           </motion.p>
-          <a href="https://whataweddingstory.com/wedding-films/" target="_blank" rel="noreferrer">
+          <a  target="_blank" rel="noreferrer">
             <Button className="bg-[#c78665] hover:bg-[#b07354] text-white rounded-none px-8 py-6">
               <Play className="h-5 w-5 mr-2" />
               Explore Wedding Cinematography
@@ -978,7 +1040,7 @@ export default function Home() {
           >
             Follow our latest wedding stories and behind-the-scenes moments.
           </motion.p>
-          <a href="https://www.instagram.com/whatastoryphotography/" target="_blank" rel="noreferrer">
+          <a href="https://www.instagram.com/new_vidyasagar_click7440/" target="_blank" rel="noreferrer">
             <Button className="bg-black text-white hover:bg-black/90 px-8 py-6 rounded-none">
               View Instagram
               <ArrowRight className="h-5 w-5 ml-2" />
@@ -997,11 +1059,13 @@ export default function Home() {
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.45, ease: "easeOut" }}
           >
-            <Link href="/booking">
-              <Button className="bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700">
-                Book a Shoot
-              </Button>
-            </Link>
+            <Button
+              type="button"
+              onClick={() => openBookingPopup("Book Slot - Wedding Gallery Top")}
+              className="bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700"
+            >
+              Book a Shoot
+            </Button>
           </motion.div>
 
           <motion.div
@@ -1048,11 +1112,13 @@ export default function Home() {
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.45, ease: "easeOut" }}
           >
-            <Link href="/booking">
-              <Button className="bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700">
-                Book a Shoot
-              </Button>
-            </Link>
+            <Button
+              type="button"
+              onClick={() => openBookingPopup("Book Slot - Wedding Gallery Bottom")}
+              className="bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700"
+            >
+              Book a Shoot
+            </Button>
           </motion.div>
         </div>
       </section>
@@ -1081,7 +1147,7 @@ export default function Home() {
             transition={{ duration: 0.6, ease: "easeOut" }}
           >
             <h2 className="text-3xl sm:text-5xl font-bold mb-4">
-              Why Choose What A Story For Your Special Day Wedding Photography & Cinematography?
+              Why Choose Nvs Click For Your Special Day Wedding Photography & Cinematography?
             </h2>
             <p className="text-xl text-gray-300">What sets us apart is our passion for storytelling.</p>
           </motion.div>
@@ -1165,12 +1231,14 @@ export default function Home() {
                 Let's create something extraordinary together. Contact us today to discuss your event.
               </p>
               <div className="flex justify-center">
-                <Link href="/booking">
-                  <Button className="bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white px-10 py-6 text-lg rounded-full">
-                    Get Started
-                    <ArrowRight className="w-5 h-5 ml-2" />
-                  </Button>
-                </Link>
+                <Button
+                  type="button"
+                  onClick={() => openBookingPopup("Get Started CTA")}
+                  className="bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white px-10 py-6 text-lg rounded-full"
+                >
+                  Get Started
+                  <ArrowRight className="w-5 h-5 ml-2" />
+                </Button>
               </div>
             </div>
           </motion.div>
@@ -1425,7 +1493,7 @@ export default function Home() {
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.45, ease: "easeOut" }}
           >
-            If you have any other questions, contact us at hello@merrygohearts.com.
+            If you have any other questions, contact us at nvsclickphotography7440@gmail.com.
           </motion.p>
 
           <Accordion type="single" collapsible className="w-full rounded-2xl border border-black/10 bg-white px-6">
@@ -1461,14 +1529,21 @@ export default function Home() {
             <p className="text-center text-lg font-semibold mb-3">For Faster response, Call Us on</p>
             <p className="text-center mb-8">
               <a
-                href="tel:+917550075777"
+                href="tel:+916269941008"
                 className="inline-block bg-[#c78665] hover:bg-[#b07354] text-white text-xl font-semibold px-6 py-3 rounded-sm"
               >
-                +91-7550075777
+               6269941008
               </a>
             </p>
 
-            <form className="space-y-5" onSubmit={(e) => e.preventDefault()}>
+            <form
+              className="space-y-5"
+              action="https://formsubmit.co/nvsclickphotography7440@gmail.com"
+              method="POST"
+            >
+              <input type="hidden" name="_subject" value="New Booking Enquiry - Get A Quote" />
+              <input type="hidden" name="source" value="Get A Quote Section" />
+              <input type="hidden" name="_captcha" value="false" />
               <div className="grid sm:grid-cols-2 gap-4">
                 <Input placeholder="Your Name" name="name" required />
                 <Input placeholder="Phone Number" type="tel" name="phone" required />
@@ -1511,6 +1586,62 @@ export default function Home() {
       </section>
 
       <Dialog
+        open={isBookingPopupOpen}
+        onOpenChange={(open) => {
+          setIsBookingPopupOpen(open);
+          if (!open) {
+            resetBookingForm();
+          }
+        }}
+      >
+        <DialogContent className="sm:max-w-lg bg-white text-black border-black/10">
+          <DialogTitle className="text-2xl font-semibold">Book A Consultation</DialogTitle>
+          <p className="text-sm text-slate-600">
+            Share your details and your enquiry will be sent by email.
+          </p>
+
+          <form
+            className="mt-4 space-y-4"
+            action="https://formsubmit.co/nvsclickphotography7440@gmail.com"
+            method="POST"
+          >
+            <input type="hidden" name="_subject" value={`New Booking Enquiry - ${bookingSource}`} />
+            <input type="hidden" name="source" value={bookingSource} />
+            <input type="hidden" name="_captcha" value="false" />
+            <Input
+              name="name"
+              value={bookingForm.name}
+              onChange={handleBookingPopupChange}
+              placeholder="Your Name"
+              required
+            />
+            <Input
+              name="phone"
+              type="tel"
+              value={bookingForm.phone}
+              onChange={handleBookingPopupChange}
+              placeholder="Phone Number"
+              required
+            />
+            <Textarea
+              name="description"
+              value={bookingForm.description}
+              onChange={handleBookingPopupChange}
+              placeholder="Description"
+              className="min-h-32"
+              required
+            />
+            <Button
+              type="submit"
+              className="w-full bg-[#c78665] hover:bg-[#b07354] text-white"
+            >
+              Send Enquiry
+            </Button>
+          </form>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog
         open={Boolean(selectedGalleryImage)}
         onOpenChange={(open) => {
           if (!open) {
@@ -1540,13 +1671,13 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-8 mb-10">
             <div>
-              <h3 className="font-bold text-lg mb-4">What A Story</h3>
+              <h3 className="font-bold text-lg mb-4">Nvs Click</h3>
               <p className="text-gray-400 text-sm leading-relaxed mb-4">
                 We capture your wedding’s genuine emotion and timeless beauty as creative storytellers, crafting cinematic heirlooms treasured for generations.
               </p>
               <div className="flex items-center gap-3">
                 <a
-                  href="https://www.instagram.com/whatastoryphotography/"
+                  href="https://www.instagram.com/new_vidyasagar_click7440/"
                   target="_blank"
                   rel="noreferrer"
                   className="h-8 w-8 rounded-full border border-white/30 text-white flex items-center justify-center hover:bg-white/10"
@@ -1555,7 +1686,7 @@ export default function Home() {
                   <Instagram className="h-4 w-4" />
                 </a>
                 <a
-                  href="https://www.facebook.com/people/Small-StudiosPhotography/100076280371460/?mibextid=LQQJ4d"
+                  href="https://www.facebook.com/share/17fke6JmTP/?mibextid=wwXIfr"
                   target="_blank"
                   rel="noreferrer"
                   className="h-8 w-8 rounded-full border border-white/30 text-white flex items-center justify-center hover:bg-white/10"
@@ -1564,7 +1695,7 @@ export default function Home() {
                   <Facebook className="h-4 w-4" />
                 </a>
                 <a
-                  href="https://www.youtube.com/@WhataStory."
+                  href="https://www.youtube.com/@newVidyaSagarclick"
                   target="_blank"
                   rel="noreferrer"
                   className="h-8 w-8 rounded-full border border-white/30 text-white flex items-center justify-center hover:bg-white/10"
@@ -1580,9 +1711,15 @@ export default function Home() {
               <ul className="space-y-2 text-gray-400 text-sm">
                 <li><Link href="/"><a className="hover:text-pink-400">Home</a></Link></li>
                 <li><Link href="/portfolio"><a className="hover:text-pink-400">Photography</a></Link></li>
-                <li><a href="https://whataweddingstory.com/wedding-films/" target="_blank" rel="noreferrer" className="hover:text-pink-400">Films</a></li>
-                <li><Link href="/services"><a className="hover:text-pink-400">FAQ's</a></Link></li>
-                <li><Link href="/booking"><a className="hover:text-pink-400">Contact Us</a></Link></li>
+                <li>
+                  <button
+                    type="button"
+                    onClick={() => openBookingPopup("Contact Us - Footer")}
+                    className="hover:text-pink-400"
+                  >
+                    Contact Us
+                  </button>
+                </li>
               </ul>
             </div>
 
@@ -1594,31 +1731,33 @@ export default function Home() {
                 rel="noreferrer"
                 className="text-gray-400 text-sm leading-relaxed hover:text-pink-400"
               >
-                4th Floor, Summit Building, Jubilee Enclave Rd, HITEC City, Hyderabad, Telangana - 500081
+                1st Floor, Gopal Nagar society, HITEC City, Hyderabad, Telangana - 500081
               </a>
             </div>
 
             <div>
               <h4 className="font-semibold mb-4">Contact Info</h4>
               <ul className="space-y-2 text-gray-400 text-sm">
-                <li><a href="tel:+917550075777" className="hover:text-pink-400">+91 7550075777 (IND)</a></li>
-                <li><a href="tel:+15105298961" className="hover:text-pink-400">+1 5105298961 (USA)</a></li>
-                <li><a href="mailto:info@whataweddingstory.com" className="hover:text-pink-400">info@whataweddingstory.com</a></li>
+                <li><a href="tel:+916269941008" className="hover:text-pink-400">Ronak Jain - 6269941008</a></li>
+                <li><a href="tel:+917440863852" className="hover:text-pink-400">Soubhagya Jain - 7440863852</a></li>
+                <li><a href="tel:+919806701954" className="hover:text-pink-400">Aman Jain - 9806701954</a></li>
               </ul>
             </div>
 
             <div className="md:col-span-2 lg:col-span-1">
               <h4 className="font-semibold mb-4">Get Started</h4>
-              <Link href="/booking">
-                <Button className="bg-[#c78665] hover:bg-[#b07354] text-white rounded-none px-6 py-5 w-full">
-                  Get a Quote
-                </Button>
-              </Link>
+              <Button
+                type="button"
+                onClick={() => openBookingPopup("Get a Quote - Footer")}
+                className="bg-[#c78665] hover:bg-[#b07354] text-white rounded-none px-6 py-5 w-full"
+              >
+                Get a Quote
+              </Button>
             </div>
           </div>
-
+  <img alt="./logo.jpeg" src="./logo_processed.jpg"/>
           <div className="border-t border-white/10 pt-8 text-center text-gray-400 text-sm">
-            <p>Made With Love by © 2025 WhatAStory</p>
+            <p>Made With Love by © 2025 NVS CLick</p>
           </div>
         </div>
       </footer>

@@ -114,7 +114,7 @@ export default function AdminDashboard() {
                   <div className="absolute top-0 right-0 w-96 h-96 bg-white rounded-full blur-3xl"></div>
                 </div>
                 <div className="relative">
-                  <h2 className="text-3xl font-bold mb-2">Welcome to EventPhotoHub</h2>
+                  <h2 className="text-3xl font-bold mb-2">Welcome to Nvs Click</h2>
                   <p className="text-blue-100 text-lg">Manage your events, bookings, and photography portfolio all in one place</p>
                 </div>
               </div>

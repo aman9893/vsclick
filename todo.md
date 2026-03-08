@@ -1,4 +1,4 @@
-# EventPhotoHub - Project TODO
+# Nvs Click - Project TODO
 
 ## Database & Core Features
 - [x] Design and implement database schema (users, events, bookings, portfolios, galleries)

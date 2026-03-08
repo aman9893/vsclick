@@ -21,7 +21,7 @@ export default function Services() {
               <div className="w-10 h-10 bg-gradient-to-br from-pink-500 to-purple-600 rounded-lg flex items-center justify-center font-bold text-white">
                 EPH
               </div>
-              <span className="text-xl font-bold">EventPhotoHub</span>
+              <span className="text-xl font-bold">Nvs Click</span>
             </div>
           </Link>
           <Link href="/booking">
@@ -188,7 +188,7 @@ export default function Services() {
       {/* Footer */}
       <footer className="border-t border-white/10 bg-black py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-gray-400 text-sm">
-          <p>&copy; 2026 EventPhotoHub. All rights reserved.</p>
+          <p>&copy; 2026 Nvs Click. All rights reserved.</p>
         </div>
       </footer>
     </div>

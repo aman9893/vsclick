@@ -461,7 +461,7 @@ export default function Home() {
             <a className="flex items-center gap-3" onClick={() => setIsMobileMenuOpen(false)}>
               <img
                 src="./logo_processed.jpg"
-                alt="./logo.jpeg"
+                alt="logo.jpeg"
                 className="h-12 w-auto"
               />
               <span className="hidden sm:block font-semibold text-white text-lg tracking-wide">
@@ -1755,7 +1755,7 @@ export default function Home() {
               </Button>
             </div>
           </div>
-  <img alt="./logo.jpeg" src="./logo_processed.jpg"/>
+  <img alt="logo.jpeg" src="./logo_processed.jpg"/>
           <div className="border-t border-white/10 pt-8 text-center text-gray-400 text-sm">
             <p>Made With Love by © 2025 NVS CLick</p>
           </div>

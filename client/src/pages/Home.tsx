@@ -460,7 +460,7 @@ export default function Home() {
           <Link href="/">
             <a className="flex items-center gap-3" onClick={() => setIsMobileMenuOpen(false)}>
               <img
-                src="./logo_processed.jpg"
+                src="logo_processed.jpg"
                 alt="logo.jpeg"
                 className="h-12 w-auto"
               />
